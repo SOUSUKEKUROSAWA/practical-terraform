@@ -6,11 +6,13 @@ variable "cidr_block" {
 variable "enable_dns_hostnames" {
     type = bool
     description = "trueの場合, AWSのDNSサーバによる名前解決が有効になる"
+    default = true
 }
 
 variable "enable_dns_support" {
     type = bool
     description = "trueの場合, VPC内のリソースにパブリックDNSホスト名を自動的に割り当てる"
+    default = true
 }
 
 variable "name" {
