@@ -14,9 +14,16 @@ variable "listener_rule_path_patterns" {
     default = []
 }
 
+variable "target_group_arn" {
+    type = string
+    description = "リスナールールのターゲットARN. 値が渡されなかった場合はモジュール内で新たにターゲットグループを作成する"
+    default = ""
+}
+
 variable "target_group_name" {
     type = string
-    description = "ターゲットグループ名"
+    description = "ターゲットグループ名. モジュール内でターゲットグループを新規作成する場合は必須"
+    default = null
 }
 
 variable "target_type" {
@@ -32,7 +39,8 @@ variable "target_type" {
 
 variable "target_vpc_id" {
     type = string
-    description = "ターゲットグループが属するVPCのID"
+    description = "ターゲットグループが属するVPCのID. モジュール内でターゲットグループを新規作成する場合は必須"
+    default = null
 }
 
 variable "target_port" {

@@ -39,3 +39,14 @@ module "listener-rule" {
     # WARN: ALBが先に必要
     depends_on = [module.alb]
 }
+
+module "additional_listener_rule" {
+    source = "../modules/alb/listener-rule"
+    listener_arn = module.alb.listener_arn
+    listener_rule_priority_rank = 90
+    listener_rule_path_patterns = ["/aaa"]
+    target_group_arn = module.listener-rule.target_group_arn
+
+    # WARN: ALBが先に必要
+    depends_on = [module.alb]
+}

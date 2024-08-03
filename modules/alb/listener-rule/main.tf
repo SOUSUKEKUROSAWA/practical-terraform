@@ -6,7 +6,7 @@ resource "aws_lb_listener_rule" "this" {
 
     action {
         type = "forward"
-        target_group_arn = aws_lb_target_group.this.arn
+        target_group_arn = var.target_group_arn != "" ? var.target_group_arn : aws_lb_target_group.this[0].arn
     }
 
     condition {
@@ -17,6 +17,8 @@ resource "aws_lb_listener_rule" "this" {
 }
 
 resource "aws_lb_target_group" "this" {
+    count = var.target_group_arn == "" ? 1 : 0
+
     name = var.target_group_name
     target_type = var.target_type
     vpc_id = var.target_vpc_id
