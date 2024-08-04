@@ -8,19 +8,12 @@ module "example" {
 }
 
 module "vpc" {
-    source = "../../modules/network/vpc"
+    source = "../../../modules/network/vpc-2az"
     cidr_block = "10.0.0.0/16"
-    enable_dns_hostnames = true
-    enable_dns_support = true
     name = "example"
-    public_subnets = {
-        "10.0.1.0/24": "us-east-2a",
-        "10.0.2.0/24": "us-east-2b",
-    }
-    private_subnets = {
-        "10.0.65.0/24": "us-east-2a",
-        "10.0.66.0/24": "us-east-2b",
-    }
+    public_subnet_cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"]
+    private_subnet_cidr_blocks = ["10.0.65.0/24", "10.0.66.0/24"]
+    availability_zones = ["us-east-2a", "us-east-2b"]
 }
 
 module "security_group" {
@@ -31,7 +24,7 @@ module "security_group" {
     cidr_blocks = ["0.0.0.0/0"]
 }
 
-module "listener-rule" {
+module "listener_rule" {
     source = "../../modules/alb/listener-rule"
     listener_arn = module.example.listener_arn
     listener_rule_priority_rank = 100
