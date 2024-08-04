@@ -27,7 +27,7 @@ module "alb" {
     public_subnets_ids = module.vpc.public_subnets_ids
 }
 
-module "listener-rule" {
+module "listener_rule" {
     source = "../modules/alb/listener-rule"
     listener_arn = module.alb.listener_arn
     listener_rule_priority_rank = 100
@@ -45,7 +45,7 @@ module "additional_listener_rule" {
     listener_arn = module.alb.listener_arn
     listener_rule_priority_rank = 90
     listener_rule_path_patterns = ["/aaa"]
-    target_group_arn = module.listener-rule.target_group_arn
+    target_group_arn = module.listener_rule.target_group_arn
 
     # WARN: ALBが先に必要
     depends_on = [module.alb]
