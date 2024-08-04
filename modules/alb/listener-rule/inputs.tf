@@ -33,7 +33,7 @@ variable "target_type" {
 
     validation {
         condition = contains(["instance", "ip"], var.target_type)
-        error_message = "target_type must be instance or ip."
+        error_message = "target_type は instance か ip を指定してください."
     }
 }
 
