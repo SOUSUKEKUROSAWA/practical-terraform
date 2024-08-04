@@ -15,7 +15,7 @@ variable "enable_deletion_protection" {
     default = false
 }
 
-variable "public_subnets_ids" {
+variable "public_subnet_ids" {
     type = list(string)
     description = "ロードバランサーが負荷分散を行う, パブリックサブネットのIDリスト"
 }

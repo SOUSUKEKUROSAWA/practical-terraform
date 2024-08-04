@@ -4,7 +4,7 @@ module "example" {
     security_group_ids = [module.security_group.security_group_id]
 
     # WARN: ELBv2 ALB は，異なるAZに少なくとも２つのサブネットを作成する必要がある
-    public_subnets_ids = module.vpc.public_subnets_ids
+    public_subnet_ids = module.vpc.public_subnet_ids
 }
 
 module "vpc" {

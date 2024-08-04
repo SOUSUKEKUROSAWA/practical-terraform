@@ -3,7 +3,7 @@ resource "aws_lb" "this" {
     load_balancer_type = "application"
     internal = false
     idle_timeout = var.timeout_seconds
-    subnets = var.public_subnets_ids
+    subnets = var.public_subnet_ids
     security_groups = var.security_group_ids
 
     access_logs {
