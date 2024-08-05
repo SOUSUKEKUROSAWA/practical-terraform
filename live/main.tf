@@ -93,7 +93,47 @@ module "ecs" {
     ])
 }
 
+module "batch" {
+    source = "../modules/ecs-scheduled-tasks"
+    batch_id = local.batch_id
+    batch_name = "現在時刻出力バッチ"
+    batch_schedule_expression = "cron(*/2 * * * ? *)" # 2分おきに実行
+    batch_description = "2分おきに現在時刻を出力する"
+    cpu = "256"
+    memory = "512"
+    ecs_task_execution_role_arn = module.ecs_task_execution_role.arn
+    cloudwatch_start_ecs_role_arn = module.cloudwatch_start_ecs_role.arn
+    ecs_cluster_arn = module.ecs.cluster_arn
+    platform_version = local.platform_version
+    subnet_ids = [module.vpc.private_subnet_ids[0]]
+    log_group_name = local.batch_log_group_name
+
+    container_definitions = jsonencode([
+        {
+            name = "alpine"
+            image = "alpine:latest"
+            essential = true
+            logConfiguration = {
+                logDriver = "awslogs"
+                options = {
+                    awslogs-region = data.aws_region.current.name
+                    awslogs-stream-prefix = "batch-${local.batch_id}"
+                    awslogs-group = local.batch_log_group_name
+                }
+            },
+            command = [
+                "/bin/date", # 日付を出力するコマンド
+            ]
+        }
+    ])
+}
+
 module "ecs_task_execution_role" {
     source = "../modules/iam-role/ecs-task-execution"
+    prefix = local.project_name
+}
+
+module "cloudwatch_start_ecs_role" {
+    source = "../modules/iam-role/cloudwatch_start_ecs"
     prefix = local.project_name
 }

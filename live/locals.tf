@@ -12,6 +12,8 @@ locals {
     nginx_container_awslogs_stream_prefix = "nginx"
     ecs_log_group_name = "/ecs/${local.project_name}"
     platform_version = "1.4.0"
+    batch_id = "1111"
+    batch_log_group_name = "/ecs-scheduled-tasks/${local.batch_id}"
 }
 
 data "aws_region" "current" {}
