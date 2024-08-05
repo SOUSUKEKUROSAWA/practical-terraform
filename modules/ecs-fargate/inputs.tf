@@ -18,6 +18,11 @@ variable "container_definitions" {
     description = "タスク定義（JSON）"
 }
 
+variable "ecs_task_execution_role_arn" {
+    type = string
+    description = "ECSのタスクを実行するためのIAMロールのARN"
+}
+
 variable "desired_count" {
     type = number
     description = "維持するタスク数. 本番環境では 2 以上を指定して, 可用性を高めることが推奨される"

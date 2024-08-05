@@ -60,6 +60,7 @@ module "ecs" {
     name = local.project_name
     cpu = "256"
     memory = "512"
+    ecs_task_execution_role_arn = module.ecs_task_execution_role.arn
     desired_count = 2
     platform_version = "1.4.0"
     security_group_ids = [module.ecs_nginx_sg.security_group_id]
@@ -90,4 +91,9 @@ module "ecs" {
             ]
         }
     ])
+}
+
+module "ecs_task_execution_role" {
+    source = "../modules/iam-role/ecs-task-execution"
+    prefix = local.project_name
 }

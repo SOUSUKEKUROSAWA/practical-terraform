@@ -3,6 +3,7 @@ module "example" {
     name = "example"
     cpu = "256"
     memory = "512"
+    ecs_task_execution_role_arn = module.ecs_task_execution_role.arn
     desired_count = 2
     platform_version = "1.4.0"
     security_group_ids = [module.nginx_sg.security_group_id]
@@ -80,4 +81,9 @@ module "listener_rule" {
 
     # WARN: ALBが先に必要
     depends_on = [module.alb]
+}
+
+module "ecs_task_execution_role" {
+    source = "../../modules/iam-role/ecs-task-execution"
+    prefix = "example"
 }

@@ -9,7 +9,7 @@ resource "aws_ecs_task_definition" "this" {
     network_mode = "awsvpc"
     requires_compatibilities = ["FARGATE"]
     container_definitions = var.container_definitions
-    execution_role_arn = module.ecs_task_execution_role.arn
+    execution_role_arn = var.ecs_task_execution_role_arn
 }
 
 resource "aws_ecs_service" "this" {
@@ -42,23 +42,4 @@ resource "aws_ecs_service" "this" {
 resource "aws_cloudwatch_log_group" "for_ecs" {
     name = var.log_group_name
     retention_in_days = var.log_retention_in_days
-}
-
-data "aws_iam_policy_document" "ecs_task_execution" {
-    # 既存のポリシーを継承
-    source_policy_documents = [data.aws_iam_policy.ecs_task_execution_role_policy.policy]
-
-    # SSMパラメートストアとの統合
-    statement {
-        effect = "Allow"
-        actions = ["ssm:GetParameters", "kms:Decrypt"]
-        resources = ["*"]
-    }
-}
-
-module "ecs_task_execution_role" {
-    source = "../iam-role"
-    name = "ecs-task-execution"
-    identifiers = ["ecs-tasks.amazonaws.com"]
-    policy_document = data.aws_iam_policy_document.ecs_task_execution.json
 }
