@@ -78,6 +78,11 @@ variable "container_port" {
 variable "log_group_name" {
     type = string
     description = "CloudWatchのロググループ名"
+
+    validation {
+        condition = can(regex("^/ecs/.*", var.log_group_name))
+        error_message = "log_group_name は '/ecs/' で始まる必要があります."
+    }
 }
 
 variable "log_retention_in_days" {

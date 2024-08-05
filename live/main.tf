@@ -62,7 +62,7 @@ module "ecs" {
     memory = "512"
     ecs_task_execution_role_arn = module.ecs_task_execution_role.arn
     desired_count = 2
-    platform_version = "1.4.0"
+    platform_version = local.platform_version
     security_group_ids = [module.ecs_nginx_sg.security_group_id]
     subnet_ids = module.vpc.private_subnet_ids
     target_group_arn = module.listener_rule.target_group_arn

@@ -10,7 +10,8 @@ locals {
     nginx_container_name = "nginx"
     nginx_container_image = "nginx:latest"
     nginx_container_awslogs_stream_prefix = "nginx"
-    ecs_log_group_name = "/ecs/example"
+    ecs_log_group_name = "/ecs/${local.project_name}"
+    platform_version = "1.4.0"
 }
 
 data "aws_region" "current" {}
