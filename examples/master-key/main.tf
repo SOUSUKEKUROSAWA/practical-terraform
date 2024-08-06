@@ -1,5 +1,5 @@
 module "example" {
-    source = "../../modules/kms"
+    source = "../../modules/master-key"
     name = "example"
     description = "example"
     is_enabled = false
