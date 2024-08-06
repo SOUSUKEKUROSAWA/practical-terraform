@@ -9,7 +9,7 @@ terraform {
     }
 
     backend "s3" {
-        key = "practical-terraform/examples/kms/terraform.tfstate"
+        key = "practical-terraform/examples/parameter-store/terraform.tfstate"
     }
 }
 
