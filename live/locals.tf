@@ -14,6 +14,11 @@ locals {
     platform_version = "1.4.0"
     batch_id = "1111"
     batch_log_group_name = "/ecs-scheduled-tasks/${local.batch_id}"
+    db_engine_name = "mysql"
+    db_engine_version = "5.7"
+    db_engine_port = 3306
+    db_character_set = "utf8mb4"
+    db_master_username = "Admin"
 }
 
 data "aws_region" "current" {}

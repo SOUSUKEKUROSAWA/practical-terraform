@@ -83,6 +83,18 @@ module "ecs" {
                     awslogs-group = local.ecs_log_group_name
                 }
             }
+            secrets = [
+                # name: コンテナ内での環境変数名
+                # valueFrom: SSMパラメートストアのパラメータ名
+                {
+                    name = "DB_USERNAME",
+                    valueFrom = "/db/username"
+                },
+                {
+                    name = "DB_PASSWORD",
+                    valueFrom = "/db/password"
+                }
+            ]
             portMappings = [
                 {
                     protocol = "tcp"
@@ -126,6 +138,53 @@ module "batch" {
             ]
         }
     ])
+}
+
+module "db" {
+    source = "../modules/rds"
+    name = local.project_name
+    engine_name = local.db_engine_name
+    engine_version = local.db_engine_version
+    engine_port = local.db_engine_port
+    parameters = {
+        character_set_database = local.db_character_set
+        character_set_server = local.db_character_set
+    }
+    instance_class = "db.t3.small"
+    allocated_storage = 20
+    max_allocated_storage = 100
+    storage_type = "gp2"
+    kms_key_arn = module.kms_key.arn
+    master_username = local.db_master_username
+    enable_multi_az = true
+    backup_window_utc = "09:10-09:40"
+    maintenance_window_utc = "mon:10:10-mon:10:40"
+    option_group_name = aws_db_option_group.mariadb_audit_plugin.name
+    vpc_id = module.vpc.vpc_id
+    vpc_cidr_block = local.vpc_cidr
+    private_subnet_ids = module.vpc.private_subnet_ids
+
+    # インスタンスを削除する際に追加するパラメータ
+    # deletion_protection = false
+    # skip_final_snapshot = true
+}
+
+resource "aws_db_option_group" "mariadb_audit_plugin" {
+    name = local.project_name
+    engine_name = local.db_engine_name
+    major_engine_version = local.db_engine_version
+
+    option {
+        option_name = "MARIADB_AUDIT_PLUGIN"
+    }
+}
+
+module "kms_key" {
+    source = "../modules/master-key"
+    name = local.project_name
+    description = "For DB Disk Encryption"
+    is_enabled = true
+    deletion_window_in_days = 7
 }
 
 module "ecs_task_execution_role" {
