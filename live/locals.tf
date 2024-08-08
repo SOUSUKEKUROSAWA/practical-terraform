@@ -19,6 +19,10 @@ locals {
     db_engine_port = 3306
     db_character_set = "utf8mb4"
     db_master_username = "Admin"
+    cache_engine = "redis"
+    cache_engine_version = "5.0"
+    cache_engine_version_with_minor = "5.0.6"
+    cache_engine_port = 6379
 }
 
 data "aws_region" "current" {}

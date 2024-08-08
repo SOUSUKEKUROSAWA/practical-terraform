@@ -179,6 +179,26 @@ resource "aws_db_option_group" "mariadb_audit_plugin" {
     }
 }
 
+module "redis" {
+    source = "../modules/cache"
+    name = local.project_name
+    description = "Cluster Disabled"
+    engine = local.cache_engine
+    engine_version = local.cache_engine_version
+    engine_version_with_minor = local.cache_engine_version_with_minor
+    port = local.cache_engine_port
+    parameters = {
+        cluster-enabled = "no"
+    }
+    private_subnet_ids = module.vpc.private_subnet_ids
+    num_cache_clusters = 3
+    instance_class = "cache.m5.large"
+    snapshot_window_utc = "09:10-10:10"
+    maintenance_window_utc = "mon:10:40-mon:11:40"
+    vpc_id = module.vpc.vpc_id
+    vpc_cidr_block = local.vpc_cidr_block
+}
+
 module "kms_key" {
     source = "../modules/master-key"
     name = local.project_name
