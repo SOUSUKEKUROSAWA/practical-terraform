@@ -1,9 +1,9 @@
 module "example" {
     source = "../../modules/rds"
     name = local.name
-    engine_name = local.engine_name
+    engine = local.engine_name
     engine_version = local.engine_version
-    engine_port = 3306
+    port = 3306
     parameters = {
         character_set_database = local.character_set
         character_set_server = local.character_set

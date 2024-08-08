@@ -1,6 +1,6 @@
 module "vpc" {
     source = "../modules/network/vpc-2az"
-    cidr_block = local.vpc_cidr
+    cidr_block = local.vpc_cidr_block
     name = local.project_name
     public_subnet_cidr_blocks = local.public_subnet_cidr_blocks
     private_subnet_cidr_blocks = local.private_subnet_cidr_blocks
@@ -52,7 +52,7 @@ module "ecs_nginx_sg" {
     name = "${local.project_name}-ecs-nginx"
     vpc_id = module.vpc.vpc_id
     port = local.http_default_port
-    cidr_blocks = [local.vpc_cidr]
+    cidr_blocks = [local.vpc_cidr_block]
 }
 
 module "ecs" {
@@ -143,9 +143,9 @@ module "batch" {
 module "db" {
     source = "../modules/rds"
     name = local.project_name
-    engine_name = local.db_engine_name
+    engine = local.db_engine_name
     engine_version = local.db_engine_version
-    engine_port = local.db_engine_port
+    port = local.db_engine_port
     parameters = {
         character_set_database = local.db_character_set
         character_set_server = local.db_character_set
@@ -161,7 +161,7 @@ module "db" {
     maintenance_window_utc = "mon:10:10-mon:10:40"
     option_group_name = aws_db_option_group.mariadb_audit_plugin.name
     vpc_id = module.vpc.vpc_id
-    vpc_cidr_block = local.vpc_cidr
+    vpc_cidr_block = local.vpc_cidr_block
     private_subnet_ids = module.vpc.private_subnet_ids
 
     # インスタンスを削除する際に追加するパラメータ

@@ -1,6 +1,6 @@
 resource "aws_db_parameter_group" "this" {
     name = var.name
-    family = "${var.engine_name}${var.engine_version}"
+    family = "${var.engine}${var.engine_version}"
 
     dynamic "parameter" {
         for_each = var.parameters
@@ -14,9 +14,9 @@ resource "aws_db_parameter_group" "this" {
 
 resource "aws_db_instance" "this" {
     identifier = var.name
-    engine = var.engine_name
+    engine = var.engine
     engine_version = var.engine_version
-    port = var.engine_port
+    port = var.port
     instance_class = var.instance_class
     allocated_storage = var.allocated_storage
     max_allocated_storage = var.max_allocated_storage
@@ -48,7 +48,7 @@ module "db_sg" {
     source = "../network/secutiry-group"
     name = var.name
     vpc_id = var.vpc_id
-    port = var.engine_port
+    port = var.port
     cidr_blocks = [var.vpc_cidr_block]
 }
 

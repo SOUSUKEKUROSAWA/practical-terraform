@@ -3,7 +3,7 @@ variable "name" {
     description = "データベース名"
 }
 
-variable "engine_name" {
+variable "engine" {
     type = string
     description = "DBエンジン名. 'mysql' 'postgres' など"
 }
@@ -13,7 +13,7 @@ variable "engine_version" {
     description = "DBエンジンのバージョン番号"
 }
 
-variable "engine_port" {
+variable "port" {
     type = number
     description = "DBエンジンのポート番号"
 }
