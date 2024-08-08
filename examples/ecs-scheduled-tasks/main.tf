@@ -25,7 +25,7 @@ module "example" {
                     awslogs-stream-prefix = "batch-${local.batch_id}"
                     awslogs-group = local.log_group_name
                 }
-            },
+            }
             secrets = [
                 # name: コンテナ内での環境変数名
                 # valueFrom: SSMパラメートストアのパラメータ名
@@ -37,7 +37,7 @@ module "example" {
                     name = "DB_PASSWORD",
                     valueFrom = local.db_password
                 }
-            ],
+            ]
             command = [
                 "/usr/bin/env", # 環境変数を出力するコマンド
             ]
