@@ -9,7 +9,7 @@ terraform {
     }
 
     backend "s3" {
-        key = "practical-terraform/setup/terraform.tfstate"
+        key = "practical-terraform/live/setup/terraform.tfstate"
     }
 }
 
