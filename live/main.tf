@@ -140,6 +140,16 @@ module "batch" {
     ])
 }
 
+module "ecs_task_execution_role" {
+    source = "../modules/iam-role/ecs-task-execution"
+    prefix = local.project_name
+}
+
+module "cloudwatch_start_ecs_role" {
+    source = "../modules/iam-role/cloudwatch_start_ecs"
+    prefix = local.project_name
+}
+
 module "db" {
     source = "../modules/rds"
     name = local.project_name
