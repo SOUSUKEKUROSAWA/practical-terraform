@@ -83,6 +83,7 @@ module "ecs" {
                     awslogs-group = local.ecs_log_group_name
                 }
             }
+            # WARN: setup/*を先にApplyしないとエラーになる
             secrets = [
                 # name: コンテナ内での環境変数名
                 # valueFrom: SSMパラメートストアのパラメータ名

@@ -44,6 +44,12 @@ variable "health_check_grace_period_seconds" {
     }
 }
 
+variable "enable_execute_command" {
+    type = bool
+    description = "trueの場合, ECS Execを有効化しSSM接続できるようにする"
+    default = true
+}
+
 variable "assign_public_ip" {
     type = bool
     description = "trueの場合タスクにパブリックIPを割り当てる"
