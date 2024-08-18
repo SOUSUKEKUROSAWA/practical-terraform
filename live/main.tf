@@ -107,6 +107,16 @@ module "batch" {
     ])
 }
 
+# CloudWatch にあるバッチのログを安価な S3 に移す
+module "batch_log_persistance" {
+    count = local.create_batch ? 1 : 0
+
+    source = "../modules/log-persistance"
+    name = local.project_name
+    log_group_name = local.batch_log_group_name
+    destination_s3_prefix = "batch/"
+}
+
 
 # アプリケーションデータの永続化
 module "db" {
@@ -167,14 +177,14 @@ module "redis" {
 module "pipeline" {
     count = local.create_pipeline ? 1 : 0
 
-  source = "../modules/pipeline"
-  name = local.project_name # S3バケットの命名は全世界で一意である必要があるため
-  codebuild_role_policy_document = data.aws_iam_policy_document.codebuild.json
-  codepipeline_role_policy_document = data.aws_iam_policy_document.codepipeline.json
-  enable_privileged_mode = true # dockerコマンド実行のため
-  github_owner_name = "SOUSUKEKUROSAWA"
-  github_target_repository_name = local.project_name
-  github_target_branch_name = "main"
-  ecs_target_cluster_name = local.project_name
-  ecs_target_service_name = local.project_name
+    source = "../modules/pipeline"
+    name = local.project_name # S3バケットの命名は全世界で一意である必要があるため
+    codebuild_role_policy_document = data.aws_iam_policy_document.codebuild.json
+    codepipeline_role_policy_document = data.aws_iam_policy_document.codepipeline.json
+    enable_privileged_mode = true # dockerコマンド実行のため
+    github_owner_name = "SOUSUKEKUROSAWA"
+    github_target_repository_name = local.project_name
+    github_target_branch_name = "main"
+    ecs_target_cluster_name = local.project_name
+    ecs_target_service_name = local.project_name
 }
