@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "ssm_to_ecs" {
+data "aws_iam_policy_document" "ssm" {
     source_policy_documents = [data.aws_iam_policy.ssm_managed_instance_core.policy]
 
     # TODO: var.target_ecr_arn など入力変数を使ってターゲットリソースを絞り込むこと
