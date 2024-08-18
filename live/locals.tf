@@ -23,6 +23,12 @@ locals {
     cache_engine_version = "5.0"
     cache_engine_version_with_minor = "5.0.6"
     cache_engine_port = 6379
+
+    # リソース作成切り替え
+    create_batch = true
+    create_db = false
+    create_redis = false
+    create_pipeline = false
 }
 
 data "aws_region" "current" {}
