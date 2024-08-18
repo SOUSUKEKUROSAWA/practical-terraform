@@ -4,15 +4,15 @@
 # ---------------------------------------------------------------------
 
 module "db_username" {
-    source = "../../modules/parameter-store"
-    name = "/db/username"
-    description = "DBのユーザー名"
-    is_secure = false
+  source      = "../../modules/parameter-store"
+  name        = "/db/username"
+  description = "DBのユーザー名"
+  is_secure   = false
 }
 
 module "db_password" {
-    source = "../../modules/parameter-store"
-    name = "/db/password"
-    description = "DBのパスワード"
-    is_secure = true
+  source      = "../../modules/parameter-store"
+  name        = "/db/password"
+  description = "DBのパスワード"
+  is_secure   = true
 }
